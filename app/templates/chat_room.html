@@ -1,7 +1,23 @@
 {% extends "base.html" %}
 {% block title %}Chat room{% endblock%}
 {% block page %}
+
   <div class="container">
-    <h2>Chat room</h2>
+    Chat application
   </div>
+  <form method="post", action="{{url_for('main.register')}}">
+
+    <p class="form-control">
+      <label>Name</label>
+      <input name='name'>
+      <br>
+    </p>
+    <p class="form-control">
+      <label>Email</label>
+      <input type="email" name='email'>
+      <br>
+    </p>
+    <p class="btn btn-light"><button type="submit">Register</button></p>
+  </form>
+
 {% endblock %}
