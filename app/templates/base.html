@@ -9,6 +9,15 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 </head>
   <body>
+    {% with messages = get_flashed_messages(with_categories=false) %}
+      {% if messages %}
+        <div class=flashes>
+            {% for message in messages %}
+                    <div><span>{{ message }}</span></div>
+            {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
     <ul class="nav">
       <li class="nav-item">
         <a class="nav-link active" href="{{url_for('main.home')}}">Home</a>

@@ -5,19 +5,19 @@
   <div class="container">
     Chat application
   </div>
-  <form method="post", action="{{url_for('main.register')}}">
-
-    <p class="form-control">
-      <label>Name</label>
-      <input name='name'>
-      <br>
-    </p>
-    <p class="form-control">
-      <label>Email</label>
-      <input type="email" name='email'>
-      <br>
-    </p>
-    <p class="btn btn-light"><button type="submit">Register</button></p>
-  </form>
+    <form method="post", action="{{url_for('main.register')}}">
+      <div class="form-group">
+        <label for="InEmail">Email</label>
+        <input type="email" name="email" class="form-control" id="InEmail" aria-describedby="emailHelp" placeholder="Enter email">
+      </div>
+      <div class="form-group">
+        <label for="nickName">Nickname</label>
+        <input type="text" name="name" class="form-control" id="nickName" placeholder="Enter nickname">
+      </div>
+      <button type="submit" class="btn btn-primary">Lets start</button>
+    </form>
+    {% for user in userlist %}
+      <p>{{ user }}</p>
+    {% endfor %}
 
 {% endblock %}
