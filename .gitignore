@@ -6,3 +6,5 @@ __pycache__/
 data.sqlite
 *.pyc
 .idea/
+data/testing_image/
+
