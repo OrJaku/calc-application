@@ -2,20 +2,21 @@ from keras.models import model_from_json
 from keras.datasets import mnist
 from keras.utils import to_categorical
 from PIL import Image
-import matplotlib
-
-matplotlib.use('TkAgg')
+import PIL.ImageOps
 import matplotlib.pyplot as plt
 import numpy as np
 import os
+import matplotlib
+matplotlib.use('TkAgg')
+
 
 (train_images, train_labels), (test_images, test_labels_origin) = mnist.load_data()
 # train_images = train_images.reshape((60000, 28 * 28))
 # train_images = train_images.astype("float32") / 255
 # test_images = test_images.reshape((10000, 28 * 28))
 # test_images = test_images.astype("float32") / 255
-train_labels = to_categorical(train_labels)
-test_labels = to_categorical(test_labels_origin)
+# train_labels = to_categorical(train_labels)
+# test_labels = to_categorical(test_labels_origin)
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 data_path = os.path.join(basedir, 'data/testing_image')
@@ -29,7 +30,9 @@ for image in files_list:
     path_to_image = os.path.join(image_folder_path, image)
     rgb = Image.open(path_to_image).convert('L')
     rgb = rgb.resize((28, 28))
-    rgb = rgb.point(lambda x: 0 if x > 128 else x)
+    rgb = PIL.ImageOps.invert(rgb)
+    rgb = rgb.point(lambda x: x + 30 if x > 115 else 0)
+
     img = np.array(rgb)
     img = img.reshape(28 * 28)
     img = img.astype("float32") / 255
@@ -63,12 +66,25 @@ print(f"\nCorrect prediction: {round(result, 1)}%")
 print(checking_list)
 print("\n ",)
 
-fig = plt.figure()
+# plt.hist(rgb_list[2], density=1, bins=10)
+# plt.show()
+fig1 = plt.figure()
+for i in range(2 * 2):
+    plt.subplot(2, 2, i + 1)
+    plt.tight_layout()
+    plt.imshow(rgb_list[i], cmap='gist_yarg')
+    plt.title("Digit: {}".format(img_name_list[i]))
+    plt.xticks([])
+    plt.yticks([])
+fig1.show()
+
+fig2 = plt.figure()
 for i in range(2 * 2):
     plt.subplot(2, 2, i + 1)
     plt.tight_layout()
     plt.imshow(test_images[i], cmap='gist_yarg')
-    plt.title("Digit: {}".format(img_name_list[i]))
+    plt.title("Digit: {}".format(test_labels_origin[i]))
     plt.xticks([])
     plt.yticks([])
-plt.show()
+fig2.show()
+input()
