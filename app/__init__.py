@@ -3,9 +3,6 @@ from flask_sqlalchemy import SQLAlchemy
 import os
 
 basedir = os.path.abspath(os.path.dirname(__file__))
-print(basedir)
-data_path = os.path.join(basedir, 'data/testing_image')
-files_list = os.listdir(data_path)
 
 db = SQLAlchemy()
 

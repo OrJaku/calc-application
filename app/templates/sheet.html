@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Sheet{% endblock%}
+{% block page %}
+  <div class="container">
+
+      <h1>Canvas module !</h1>
+       <script type="text/javascript">
+      function draw() {
+        var canvas = document.getElementById('tutorial');
+        if (canvas.getContext) {
+          var ctx = canvas.getContext('2d');
+        }
+      }
+    </script>
+
+
+    <canvas id="canvas" width="300" height="500">
+
+        TEST
+    </canvas>
+
+
+
+
+  </div>
+{% endblock %}

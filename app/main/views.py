@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from ..models import User
+from ..ml_model import prediction
 from .. import db
 
 main = Blueprint('main', __name__, template_folder='templates')
@@ -40,3 +41,8 @@ def register():
         db.session.commit()
         flash("Registered successfully")
     return redirect(url_for('main.chat_room'))
+
+
+@main.route('/writing')
+def writing():
+    return render_template("sheet.html")

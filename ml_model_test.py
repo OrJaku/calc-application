@@ -4,6 +4,7 @@ from keras.utils import to_categorical
 from PIL import Image
 import PIL.ImageOps
 import matplotlib.pyplot as plt
+from scipy import ndimage
 import numpy as np
 import os
 import matplotlib
@@ -28,17 +29,24 @@ img_name_list = []
 rgb_list = []
 for image in files_list:
     path_to_image = os.path.join(image_folder_path, image)
-    rgb = Image.open(path_to_image).convert('L')
-    rgb = rgb.resize((28, 28))
-    rgb = PIL.ImageOps.invert(rgb)
-    rgb = rgb.point(lambda x: x + 30 if x > 115 else 0)
+    img = Image.open(path_to_image).convert('L')
+    img = img.resize((28, 28))
+    img = PIL.ImageOps.invert(img)
+    img = img.point(lambda x: x + 20 if x > 65 else 0)
 
-    img = np.array(rgb)
-    img = img.reshape(28 * 28)
-    img = img.astype("float32") / 255
-    img_list.append(img)
+    # img = ndimage.gaussian_filter(img, sigma=0.8)
+    # filter_img = ndimage.gaussian_filter(img, sigma=0.1)
+    # alpha = 50
+    # img = img + alpha * (img - filter_img)
+    # img = Image.fromarray(img)
+    # img = img.point(lambda x: x+20 if x > 0 else 0)
 
-    rgb_list.append(rgb)
+    img_array = np.array(img)
+    img_array = img_array.reshape(28 * 28)
+    img_array = img_array.astype("float32") / 255
+    img_list.append(img_array)
+
+    rgb_list.append(img)
 
     img_name = os.path.basename(path_to_image)[:-4]
     img_name_list.append(img_name)
@@ -66,11 +74,11 @@ print(f"\nCorrect prediction: {round(result, 1)}%")
 print(checking_list)
 print("\n ",)
 
-# plt.hist(rgb_list[2], density=1, bins=10)
+# plt.hist(rgb_list[2], density=5, bins=10)
 # plt.show()
 fig1 = plt.figure()
-for i in range(2 * 2):
-    plt.subplot(2, 2, i + 1)
+for i in range(5 * 4):
+    plt.subplot(5, 4, i + 1)
     plt.tight_layout()
     plt.imshow(rgb_list[i], cmap='gist_yarg')
     plt.title("Digit: {}".format(img_name_list[i]))
@@ -87,4 +95,4 @@ for i in range(2 * 2):
     plt.xticks([])
     plt.yticks([])
 fig2.show()
-input()
+input("Click enter to stop application")
