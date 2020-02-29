@@ -3,24 +3,25 @@
 {% block page %}
   <div class="container">
 
-      <h1>Canvas module !</h1>
-       <script type="text/javascript">
-      function draw() {
-        var canvas = document.getElementById('tutorial');
-        if (canvas.getContext) {
-          var ctx = canvas.getContext('2d');
-        }
-      }
-    </script>
-
-
-    <canvas id="canvas" width="300" height="500">
-
-        TEST
-    </canvas>
-
-
-
-
-  </div>
+    <div align="center">
+        <canvas id="myCanvas" width="300" height="400" style="border:2px solid black"></canvas>
+        <br /><br />
+        <button onclick="javascript:clearArea();return false;">Clear Area</button>
+        Line width : <select id="selWidth">
+            <option value="1">1</option>
+            <option value="3">3</option>
+            <option value="5">5</option>
+            <option value="7">7</option>
+            <option value="9" selected="selected">9</option>
+            <option value="11">11</option>
+        </select>
+        Color : <select id="selColor">
+            <option value="black">black</option>
+            <option value="blue" selected="selected">blue</option>
+            <option value="red">red</option>
+            <option value="green">green</option>
+            <option value="yellow">yellow</option>
+            <option value="gray">gray</option>
+        </select>
+    </div>
 {% endblock %}
