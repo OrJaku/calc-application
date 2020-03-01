@@ -4,7 +4,7 @@
   <div class="container">
 
     <div align="center">
-        <canvas id="myCanvas" width="300" height="400" style="border:2px solid black"></canvas>
+        <canvas id="Canvas" width="300" height="400" style="border:2px solid black" ></canvas>
         <br /><br />
         <button onclick="javascript:clearArea();return false;">Clear Area</button>
         Line width : <select id="selWidth">
@@ -23,5 +23,10 @@
             <option value="yellow">yellow</option>
             <option value="gray">gray</option>
         </select>
+         <p></p>
+        <form method="post"  action="{{url_for('main.image')}}">
+            <button name="img" onclick="drawDataURIOnCanvas();">Get Jpg</button>
+        </form>
     </div>
+  </div>
 {% endblock %}

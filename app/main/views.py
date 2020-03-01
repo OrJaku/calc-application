@@ -46,3 +46,10 @@ def register():
 @main.route('/writing')
 def writing():
     return render_template("sheet.html")
+
+
+@main.route('/image', methods=["POST"])
+def image():
+    img = request.form['img']
+    print("TEST", img)
+    return render_template("sheet.html")
