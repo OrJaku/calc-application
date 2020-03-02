@@ -1,6 +1,8 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from ..models import User
 from ..ml_model import prediction
+import tempfile
+import os
 from .. import db
 
 main = Blueprint('main', __name__, template_folder='templates')
@@ -50,6 +52,13 @@ def writing():
 
 @main.route('/image', methods=["POST"])
 def image():
-    img = request.form['img']
+    img = request.files.get('img', '')
+    print("TEST", img)
+
+    new_file = open(img, "w")
+    new_file.write('this is some content')
+    new_file, filename = tempfile.mkstemp()
+    print(filename)
+    os.close(new_file)
     print("TEST", img)
     return render_template("sheet.html")

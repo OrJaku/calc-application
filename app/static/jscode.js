@@ -44,26 +44,44 @@ function clearArea() {
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 }
 
+//function drawDataURIOnCanvas() {
+//  var element = document.createElement('a');
+//  element.setAttribute('href', document.getElementById('Canvas').toDataURL('image/jpeg'));
+//  element.setAttribute('download', 'chart.jpeg');
+//  element.style.display = 'none';
+//  document.body.appendChild(element);
+//  element.click();
+//  document.body.removeChild(element);
+//  return element
+//
+//}
 function drawDataURIOnCanvas() {
   var element = document.createElement('a');
   element.setAttribute('href', document.getElementById('Canvas').toDataURL('image/jpeg'));
   element.setAttribute('download', 'chart.jpeg');
   element.style.display = 'none';
-  document.body.appendChild(element);
-  element.click();
-  document.body.removeChild(element);
+  $.ajax({
+        url: 'image', // point to server-side URL
+        dataType: 'jpeg', // what to expect back from server
+        cache: false,
+        contentType: false,
+        processData: false,
+        data: form_data,
+        type: 'post',
+        success: function (response) { // display success response
+            $('#msg').html('');
+            $.each(response, function (key, data) {
+                if(key !== 'message') {
+                    $('#msg').append(key + ' -> ' + data + '<br/>');
+                } else {
+                    $('#msg').append(data + '<br/>');
+                }
+            })
+        },
+        error: function (response) {
+						$('#msg').html(response.message); // display error response
 
-}
-
-
-//function drawDataURIOnCanvas(strDataURI, Canvas) {
-//    var img = new window.Image();
-//    img.addEventListener("load", function () {
-//        canvas.getContext("2d").drawImage(img, 0, 0);
-//    });
-//    img.setAttribute("src", strDataURI);
-//    console.log(img)
-//}
+  }
 
 //function drawDataURIOnCanvas() {
 //    var canvas = document.getElementById("canvas")
