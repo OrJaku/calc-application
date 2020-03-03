@@ -52,7 +52,12 @@ def writing():
 
 @main.route('/image', methods=["POST"])
 def image():
-    img = request.files.get('img', '')
+    img = request.files.get('img')
+    print("TEST", img)
+
+    tmp = tempfile.NamedTemporaryFile()
+    with open(tmp.name, 'w') as f:
+        f.write(img)
     print("TEST", img)
 
     new_file = open(img, "w")
