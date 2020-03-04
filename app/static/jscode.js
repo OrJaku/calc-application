@@ -45,25 +45,6 @@ function clearArea() {
 }
 
 function drawDataURIOnCanvas() {
-//  var element = document.createElement('a');
   var element = document.getElementById('Canvas').toDataURL('image/jpeg');
-//  var element = document.getElementById('test');
   document.getElementById('test').value = element;
-//  element.setAttribute('download', 'chart.jpeg');
-//  element.style.display = 'none';
-//  document.body.appendChild(element);
-//  element.click();
-
 }
-//function drawDataURIOnCanvas() {
-//  var element = document.createElement('a');
-//  element.setAttribute('href', document.getElementById('Canvas').toDataURL('image/jpeg'));
-//  element.setAttribute('download', 'chart.jpeg');
-//  element.style.display = 'none';
-//}
-//function drawDataURIOnCanvas() {
-//    var canvas = document.getElementById("canvas")
-//    var context = canvas.getContext("2d")
-//    var img = new Image()img.src = "./cat.jpg"img.onload = () => {  context.drawImage(img, 0, 0)
-//
-//}

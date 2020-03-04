@@ -4,6 +4,8 @@ from ..ml_model import prediction
 import tempfile
 import os
 from .. import db
+from PIL import Image
+import urllib.request
 
 main = Blueprint('main', __name__, template_folder='templates')
 
@@ -52,21 +54,8 @@ def writing():
 
 @main.route('/image', methods=["POST"])
 def image():
-    data = request.json
-    print(data)
-
-    img_path = data.get('img_path')
-    print(img_path)
-
-    r = request.get(img_path)
-    print(r)
-
-    tmp = tempfile.NamedTemporaryFile()
-    with open(tmp.name, 'w') as f:
-        f.write(img)
-
-    new_file, filename = tempfile.mkstemp()
-    print(filename)
-    os.close(new_file)
-    print("TEST", img)
+    data = request.form['img']
+    img = Image.open(urllib.request.urlopen(data))
+    prediction(img)
+    print(prediction(img))
     return render_template("sheet.html")
