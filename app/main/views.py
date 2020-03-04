@@ -52,16 +52,19 @@ def writing():
 
 @main.route('/image', methods=["POST"])
 def image():
-    img = request.files.get('img')
-    print("TEST", img)
+    data = request.json
+    print(data)
+
+    img_path = data.get('img_path')
+    print(img_path)
+
+    r = request.get(img_path)
+    print(r)
 
     tmp = tempfile.NamedTemporaryFile()
     with open(tmp.name, 'w') as f:
         f.write(img)
-    print("TEST", img)
 
-    new_file = open(img, "w")
-    new_file.write('this is some content')
     new_file, filename = tempfile.mkstemp()
     print(filename)
     os.close(new_file)

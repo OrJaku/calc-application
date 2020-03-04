@@ -31,16 +31,10 @@ for image in files_list:
     path_to_image = os.path.join(image_folder_path, image)
     img = Image.open(path_to_image).convert('L')
     img = img.resize((28, 28))
-    img = PIL.ImageOps.invert(img)
-    img = img.point(lambda x: x + 20 if x > 65 else 0)
-
-    # img = ndimage.gaussian_filter(img, sigma=0.8)
-    # filter_img = ndimage.gaussian_filter(img, sigma=0.1)
-    # alpha = 50
-    # img = img + alpha * (img - filter_img)
-    # img = Image.fromarray(img)
-    # img = img.point(lambda x: x+20 if x > 0 else 0)
-
+    img = ndimage.gaussian_filter(img, sigma=0.5)
+    img = Image.fromarray(img)
+    img = img.point(lambda x: x+60 if x > 1 else 0)
+    img = ndimage.gaussian_filter(img, sigma=0.5)
     img_array = np.array(img)
     img_array = img_array.reshape(28 * 28)
     img_array = img_array.astype("float32") / 255
@@ -76,19 +70,20 @@ print("\n ",)
 
 # plt.hist(rgb_list[2], density=5, bins=10)
 # plt.show()
+
 fig1 = plt.figure()
-for i in range(5 * 4):
-    plt.subplot(5, 4, i + 1)
+for i in range(10):
+    plt.subplot(2, 5, i + 1)
     plt.tight_layout()
     plt.imshow(rgb_list[i], cmap='gist_yarg')
     plt.title("Digit: {}".format(img_name_list[i]))
     plt.xticks([])
     plt.yticks([])
 fig1.show()
-
+#
 fig2 = plt.figure()
-for i in range(2 * 2):
-    plt.subplot(2, 2, i + 1)
+for i in range(3 * 2):
+    plt.subplot(3, 2, i + 1)
     plt.tight_layout()
     plt.imshow(test_images[i], cmap='gist_yarg')
     plt.title("Digit: {}".format(test_labels_origin[i]))
