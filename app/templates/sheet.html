@@ -2,18 +2,18 @@
 {% block title %}Sheet{% endblock%}
 {% block page %}
 <div class="container" xmlns="http://www.w3.org/1999/html">
-
     <div align="center">
-        <canvas id="Canvas" width="300" height="400" style="border:2px solid black" ></canvas>
+        <canvas id="Canvas" width="300" height="300" style="border:2px solid black" ></canvas>
         <br /><br />
+        <p><b>{{predict}}</b></p>
+        <p>{{info}}</p>
+
         <button onclick="javascript:clearArea();return false;">Clear Area</button>
         Line width : <select id="selWidth">
-            <option value="1">1</option>
-            <option value="3">3</option>
             <option value="5">5</option>
             <option value="7">7</option>
-            <option value="9" selected="selected">9</option>
-            <option value="11">11</option>
+            <option value="9" >9</option>
+            <option value="11" selected="selected">11</option>
         </select>
         Color : <select id="selColor">
             <option value="black">black</option>
@@ -23,7 +23,7 @@
             <option value="yellow">yellow</option>
             <option value="gray">gray</option>
         </select>
-         <p></p>
+        <p></p>
         <form method="POST"  action="{{url_for('main.image')}}">
             <button type="submit" id="test" name="img" onclick="drawDataURIOnCanvas();"  >get</button>
         </form>

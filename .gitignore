@@ -7,7 +7,7 @@ data.sqlite
 *.pyc
 .idea/
 data/testing_image/
-app/temp/
+app/captured_image/
 data/plus/
 ml_model_test.py
 

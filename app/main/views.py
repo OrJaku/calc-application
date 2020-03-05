@@ -1,8 +1,9 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
-from ..models import User
+from ..models import User, Images
 from ..ml_model import prediction
-import tempfile
-import os
+from app import basedir
+import time
+import scipy.misc
 from .. import db
 from PIL import Image
 import urllib.request
@@ -49,6 +50,7 @@ def register():
 
 @main.route('/writing')
 def writing():
+
     return render_template("sheet.html")
 
 
@@ -56,6 +58,20 @@ def writing():
 def image():
     data = request.form['img']
     img = Image.open(urllib.request.urlopen(data))
-    prediction(img)
-    print(prediction(img))
-    return render_template("sheet.html")
+    result = prediction(img)
+    predict = result[0][0]
+    filtered_image = result[2]
+    img_name = time.strftime("%Y%m%d-%H%M%S")
+    img_name = "".join([img_name, "_", str(predict), ".jpg"])
+    try:
+        path_image = "/".join([basedir, "captured_image", img_name])
+        filtered_image.save(path_image)
+    except FileNotFoundError:
+        info = "Files problem"
+        return render_template("sheet.html", predict=predict, info=info)
+
+    image_to_db = Images(predict=int(predict), array=data)
+    db.session.add(image_to_db)
+    db.session.commit()
+    print(predict)
+    return render_template("sheet.html", predict=predict)

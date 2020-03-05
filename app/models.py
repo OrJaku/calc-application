@@ -6,12 +6,18 @@ class User(db.Model):
     __tablename__ = "users"
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.Text())
-    email = db.Column(db.Text())
-
-    def __init__(self, name, email):
-        self.name = name
-        self.email = email
+    name = db.Column(db.String(50))
+    email = db.Column(db.Text(40))
 
     def __repl__(self):
         return f"User {self.name}"
+
+
+class Images(db.Model):
+    __tablename__ = "images"
+    id = db.Column(db.Integer, primary_key=True)
+    array = db.Column(db.Text())
+    predict = db.Column(db.Integer())
+
+    def __repl__(self):
+        return f"Image ID{self.id} Predict:{self.predict}"
