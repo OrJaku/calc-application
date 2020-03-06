@@ -3,10 +3,36 @@ from PIL import Image
 from scipy import ndimage
 import numpy as np
 import PIL.ImageOps
+from keras.utils import to_categorical
+import os
 
-with open('data/model_config.json', 'r') as f:
+with open('data/new__model_config.json', 'r') as f:
     model = model_from_json(f.read())
-model.load_weights('data/model_mnist.h5')
+model.load_weights('data/new__model_mnist.h5')
+
+
+def learning(train_images, train_labels, list_len, epochs=10, model=model):
+    train_images = train_images.reshape((list_len, 28 * 28))
+    train_images = train_images.astype("float32") / 255
+    train_labels = to_categorical(train_labels)
+    model.compile("adam", "categorical_crossentropy")
+
+    model.fit(
+        train_images,
+        train_labels,
+        epochs=epochs,
+        batch_size=128,
+        verbose=2,
+        )
+    save_file = 'data/'
+    model_name = 'new__model_mnist.h5'
+
+    json_config = model.to_json()
+    with open('data/new__model_config.json', 'w') as json_file:
+        json_file.write(json_config)
+    model_path = os.path.join(save_file, model_name)
+    model.save_weights(model_path)
+    print('Saved trained model at %s ' % model_path)
 
 
 def prediction(image):
@@ -28,5 +54,3 @@ def prediction(image):
     filtered_image = PIL.ImageOps.invert(filtered_image)
 
     return predict, img, filtered_image, predict_percent
-
-

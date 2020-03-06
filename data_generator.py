@@ -5,10 +5,10 @@ import PIL.ImageOps
 
 
 basedir = os.path.abspath(os.path.dirname(__file__))
-print(basedir)
 data_path = os.path.join(basedir, "data/test_img")
 files_list = os.listdir(data_path)
 image_folder_path = "data/test_img"
+save_path = "data"
 
 images_list = []
 labels_list = []
@@ -26,7 +26,10 @@ for image in files_list:
 image_list = np.array(images_list)
 labels_list = np.array(labels_list)
 
-np.save("data/images", image_list)
-np.save("data/labels", labels_list)
+images_data_path = os.path.join(save_path, "images")
+labels_data_path = os.path.join(save_path, "labels")
+np.save(images_data_path, image_list)
+np.save(labels_data_path, labels_list)
+print("File saved in '/data' folder ")
 
 
