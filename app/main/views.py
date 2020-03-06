@@ -70,8 +70,8 @@ def image():
         info = "Files problem"
         return render_template("sheet.html", predict=predict, info=info)
 
-    image_to_db = Images(predict=int(predict), array=data)
-    db.session.add(image_to_db)
-    db.session.commit()
+    # image_to_db = Images(predict=int(predict), array=data)
+    # db.session.add(image_to_db)
+    # db.session.commit()
     print(predict)
     return render_template("sheet.html", predict=predict)

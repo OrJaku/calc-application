@@ -8,7 +8,7 @@ data.sqlite
 .idea/
 data/testing_image/
 app/captured_image/
-data/plus/
+data/test_img/
 ml_model_test.py
 
 
