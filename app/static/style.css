@@ -1,2 +1,11 @@
-canvas { border: 1px solid black;
-background: white;}
+canvas {
+border: 2px solid black;
+background: white;
+border-radius: 5px;
+margin: 0em 1em 0em 1em;
+}
+
+.btn-primary {
+padding: 10px 137px;
+margin: 0em 1em 0em 1em;
+}

@@ -4,33 +4,31 @@
 <div class="container" xmlns="http://www.w3.org/1999/html">
     <div align="center">
         <p><b>{{latest_file}}</b></p>
+        <p><b>{{predict}}</b><p>
+        <p>{{info}}</p>
         <canvas id="Canvas" width="300" height="300" style="border:2px solid black" ></canvas>
-        <br /><br />
-        <b>{{predict}}</b>
+           <form method="POST"  action="{{url_for('main.image')}}">
+                <button type="submit" class="btn btn-primary btn-lg" id="test" name="img" onclick="drawDataURIOnCanvas();"  > Get</button>
+            </form><br>
             <form method="POST"  action="{{url_for('main.delete_image')}}">
-                <button type="submit" id="" name="delete_image">Incorrect</button>
+                <button type="submit" class="btn btn-danger" name="delete_image">Incorrect</button>
             </form>
+            <button onclick="javascript:clearArea();return false;" class="btn btn-info">Clear Area</button>
+            Line width : <select id="selWidth">
+                <option value="5">5</option>
+                <option value="7">7</option>
+                <option value="9" >9</option>
+                <option value="11" selected="selected">11</option>
+            </select>
+            Color : <select id="selColor">
+                <option value="black">black</option>
+                <option value="blue" selected="selected">blue</option>
+                <option value="red">red</option>
+            </select>
 
-        <button onclick="javascript:clearArea();return false;">Clear Area</button>
-        Line width : <select id="selWidth">
-            <option value="5">5</option>
-            <option value="7">7</option>
-            <option value="9" >9</option>
-            <option value="11" selected="selected">11</option>
-        </select>
-        Color : <select id="selColor">
-            <option value="black">black</option>
-            <option value="blue" selected="selected">blue</option>
-            <option value="red">red</option>
-            <option value="green">green</option>
-            <option value="yellow">yellow</option>
-            <option value="gray">gray</option>
-        </select>
-        <p></p>
-        <form method="POST"  action="{{url_for('main.image')}}">
-            <button type="submit" id="test" name="img" onclick="drawDataURIOnCanvas();"  >get</button>
-        </form>
-
+        <br />
     </div>
+     <img src=image_to_display alt="Previous digit" height="54" width="54">
+
   </div>
 {% endblock %}

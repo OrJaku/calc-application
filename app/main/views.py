@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from ..models import User, Images
 from ..ml_model import prediction
-from app import basedir
+from app import basedir, find_last_image
 import time
 from .. import db
 from PIL import Image
@@ -70,30 +70,28 @@ def image():
         info = "Files problem"
         return render_template("sheet.html", predict=predict, info=info)
 
-    # image_to_db = Images(predict=int(predict), array=data)
-    # db.session.add(image_to_db)
-    # db.session.commit()
+    image_to_display = find_last_image()[0]
+    image_to_display = os.path.join("file://", image_to_display)
+    print("TO DISPLAY", image_to_display)
+
     print(predict)
-    return render_template("sheet.html", predict=predict)
+    return render_template("sheet.html", predict=predict, image_to_display=image_to_display)
 
 
 @main.route('/delete_image', methods=["POST"])
 def delete_image():
-    path_in_app = "captured_image"
-    path_to_image = os.path.join(basedir, path_in_app)
-    files_list = os.listdir(path_to_image)
-    latest_file = max(files_list)
-    file_to_remove = os.path.join(path_to_image, latest_file)
-    os.remove(file_to_remove)
+    path_to_latest_file = find_last_image()
+    os.remove(path_to_latest_file[0])
 
     labels_list = []
-    for img in files_list:
+    for img in path_to_latest_file[1]:
         lbl = img[-5]
         labels_list.append(lbl)
     i = 0
+    count_labels = {}
     while i != 10:
-        i += 1
         count = labels_list.count(str(i))
-        print(f'{i}:', count)
-
-    return render_template("sheet.html", latest_file=latest_file)
+        count_labels[i] = count
+        i += 1
+    print(count_labels)
+    return render_template("sheet.html", latest_file=path_to_latest_file[2])
