@@ -3,10 +3,10 @@ from ..models import User, Images
 from ..ml_model import prediction
 from app import basedir
 import time
-import scipy.misc
 from .. import db
 from PIL import Image
 import urllib.request
+import os
 
 main = Blueprint('main', __name__, template_folder='templates')
 
@@ -75,3 +75,25 @@ def image():
     # db.session.commit()
     print(predict)
     return render_template("sheet.html", predict=predict)
+
+
+@main.route('/delete_image', methods=["POST"])
+def delete_image():
+    path_in_app = "captured_image"
+    path_to_image = os.path.join(basedir, path_in_app)
+    files_list = os.listdir(path_to_image)
+    latest_file = max(files_list)
+    file_to_remove = os.path.join(path_to_image, latest_file)
+    os.remove(file_to_remove)
+
+    labels_list = []
+    for img in files_list:
+        lbl = img[-5]
+        labels_list.append(lbl)
+    i = 0
+    while i != 10:
+        i += 1
+        count = labels_list.count(str(i))
+        print(f'{i}:', count)
+
+    return render_template("sheet.html", latest_file=latest_file)

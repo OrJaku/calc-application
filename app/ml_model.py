@@ -68,10 +68,8 @@ def prediction(image):
     img_list.append(image)
     img_list = np.array(img_list)
     predict = model.predict_classes(img_list)
-    predict_percent = model.predict(img_list)
-    print(predict_percent)
 
     filtered_image = Image.fromarray(img).resize((5*28, 5*28))
     filtered_image = PIL.ImageOps.invert(filtered_image)
 
-    return predict, img, filtered_image, predict_percent
+    return predict, img, filtered_image

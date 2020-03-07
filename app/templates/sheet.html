@@ -3,10 +3,13 @@
 {% block page %}
 <div class="container" xmlns="http://www.w3.org/1999/html">
     <div align="center">
+        <p><b>{{latest_file}}</b></p>
         <canvas id="Canvas" width="300" height="300" style="border:2px solid black" ></canvas>
         <br /><br />
-        <p><b>{{predict}}</b></p>
-        <p>{{info}}</p>
+        <b>{{predict}}</b>
+            <form method="POST"  action="{{url_for('main.delete_image')}}">
+                <button type="submit" id="" name="delete_image">Incorrect</button>
+            </form>
 
         <button onclick="javascript:clearArea();return false;">Clear Area</button>
         Line width : <select id="selWidth">
@@ -27,6 +30,7 @@
         <form method="POST"  action="{{url_for('main.image')}}">
             <button type="submit" id="test" name="img" onclick="drawDataURIOnCanvas();"  >get</button>
         </form>
+
     </div>
   </div>
 {% endblock %}
