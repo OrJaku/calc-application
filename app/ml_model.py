@@ -6,15 +6,32 @@ import PIL.ImageOps
 from keras.utils import to_categorical
 import os
 
-with open('data/new__model_config.json', 'r') as f:
+with open('data/ml_model_files/model_config.json', 'r') as f:
     model = model_from_json(f.read())
-model.load_weights('data/new__model_mnist.h5')
+model.load_weights('data/ml_model_files/model_mnist.h5')
 
 
-def learning(train_images, train_labels, list_len, epochs=10, model=model):
-    train_images = train_images.reshape((list_len, 28 * 28))
+def learning(
+        train_images,
+        train_labels,
+        test_images,
+        test_labels,
+        list_len_train,
+        list_len_test,
+        epochs=10,
+        save_file_path='data/ml_model_files',
+        model=model,
+        ):
+
+    train_images = train_images.reshape((list_len_train, 28 * 28))
     train_images = train_images.astype("float32") / 255
+
+    test_images = test_images.reshape((list_len_test, 28 * 28))
+    test_images = test_images.astype("float32") / 255
+
     train_labels = to_categorical(train_labels)
+    test_labels = to_categorical(test_labels)
+
     model.compile("adam", "categorical_crossentropy")
 
     model.fit(
@@ -24,13 +41,17 @@ def learning(train_images, train_labels, list_len, epochs=10, model=model):
         batch_size=128,
         verbose=2,
         )
-    save_file = 'data/'
-    model_name = 'new__model_mnist.h5'
+    loss_acc = model.evaluate(test_images, test_labels)
+    print('loss= ', loss_acc)
 
+    model_name_json = 'model_config.json'
+    model_path = os.path.join(save_file_path, model_name_json)
     json_config = model.to_json()
-    with open('data/new__model_config.json', 'w') as json_file:
+    with open(model_path, 'w') as json_file:
         json_file.write(json_config)
-    model_path = os.path.join(save_file, model_name)
+
+    model_name_weights = 'model_mnist.h5'
+    model_path = os.path.join(save_file_path, model_name_weights)
     model.save_weights(model_path)
     print('Saved trained model at %s ' % model_path)
 

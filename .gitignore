@@ -8,6 +8,8 @@ data.sqlite
 .idea/
 data/testing_image/
 app/captured_image/
+data/learning_data/
+data/learning_images/
 data/test_img/
 ml_model_test.py
 
