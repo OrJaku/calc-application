@@ -75,44 +75,31 @@ def image():
     # image_to_display = os.path.join("", image_to_display)
 
     print(predict)
-    return render_template("sheet.html", predict=predict, image_to_display=image_to_display)
+    return render_template("sheet.html", value=predict, image_to_display=image_to_display)
 
 
 @main.route('/buttons', methods=["POST"])
 def buttons():
     if "plus" in request.form:
         data = request.form['plus']
-        sign = "p"
+        sign = "+"
     elif "minus" in request.form:
         data = request.form['minus']
-        sign = "m"
+        sign = "-"
     elif "multi" in request.form:
         data = request.form['multi']
-        sign = "n"
+        sign = "*"
     elif "divis" in request.form:
         data = request.form['divis']
-        sign = "d"
+        sign = "/"
     elif "equate" in request.form:
         data = request.form['equate']
-        sign = "e"
+        sign = "="
     else:
         data = None
         sign = "Incorrect"
-    try:
-        img = Image.open(urllib.request.urlopen(data))
-    except AttributeError:
-        img = None
-    result = prediction(img)
-    filtered_image = result[2]
-    img_name = time.strftime("%Y%m%d-%H%M%S")
-    img_name = "".join([img_name, "_", sign, ".jpg"])
-    try:
-        path_image = "/".join([basedir, "captured_image", img_name])
-        filtered_image.save(path_image)
-    except FileNotFoundError:
-        info = "Files problem"
-        return render_template("sheet.html", info=info)
-    return render_template("sheet.html")
+
+    return render_template("sheet.html", value=sign)
 
 
 @main.route('/delete_image', methods=["POST"])
