@@ -47,4 +47,9 @@ function clearArea() {
 function drawDataURIOnCanvas() {
   var element = document.getElementById('Canvas').toDataURL('image/jpeg');
   document.getElementById('test').value = element;
+  document.getElementById('multi').value = element;
+  document.getElementById('plus').value = element;
+  document.getElementById('minus').value = element;
+  document.getElementById('divis').value = element;
+  document.getElementById('equate').value = element;
 }

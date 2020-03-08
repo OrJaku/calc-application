@@ -23,6 +23,23 @@ def generator():
         images_list.append(img_array)
 
         lbl = image[-5]
+        # Sign "+"
+        if lbl == 'p':
+            lbl = 11
+        # Sign "-"
+        elif lbl == "m":
+            lbl = 12
+        # Sign "/"
+        elif lbl == "d":
+            lbl = 13
+        # Sign "*"
+        elif lbl == "n":
+            lbl = 14
+        # Sign "="
+        elif lbl == "e":
+            lbl = 15
+        else:
+            pass
         labels_list.append(lbl)
 
     images_list = np.array(images_list)

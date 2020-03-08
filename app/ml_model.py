@@ -72,4 +72,4 @@ def prediction(image):
     filtered_image = Image.fromarray(img).resize((5*28, 5*28))
     filtered_image = PIL.ImageOps.invert(filtered_image)
 
-    return predict, img, filtered_image
+    return predict, img_list, filtered_image

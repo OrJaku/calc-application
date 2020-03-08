@@ -8,7 +8,15 @@
         <p>{{info}}</p>
         <canvas id="Canvas" width="300" height="300" style="border:2px solid black" ></canvas>
            <form method="POST"  action="{{url_for('main.image')}}">
-                <button type="submit" class="btn btn-primary btn-lg" id="test" name="img" onclick="drawDataURIOnCanvas();"  > Get</button>
+                <button type="submit" class="btn btn-primary btn-lg" id="test" name="img" onclick="drawDataURIOnCanvas();" > Get</button>
+            </form><br>
+            <form method="POST"  action="{{url_for('main.buttons')}}">
+                <button type="submit" class="btn btn-secondary" id="plus" name="plus" onclick="drawDataURIOnCanvas();"> + </button>
+                <button type="submit" class="btn btn-secondary" id="minus" name="minus" onclick="drawDataURIOnCanvas();"> - </button>
+                <button type="submit" class="btn btn-secondary" id="multi" name="multi" onclick="drawDataURIOnCanvas();"> * </button>
+                <button type="submit" class="btn btn-secondary" id="divis" name="divis" onclick="drawDataURIOnCanvas();"> / </button>
+                <button type="submit" class="btn btn-secondary" id="equate" name="equate" onclick="drawDataURIOnCanvas();"> = </button>
+
             </form><br>
             <form method="POST"  action="{{url_for('main.delete_image')}}">
                 <button type="submit" class="btn btn-danger" name="delete_image">Incorrect</button>
@@ -28,7 +36,7 @@
 
         <br />
     </div>
-     <img src=image_to_display alt="Previous digit" height="54" width="54">
+<!--     <img src="image_to_display" alt="Previous digit" height="54" width="54">-->
 
   </div>
 {% endblock %}

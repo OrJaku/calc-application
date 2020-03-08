@@ -2,11 +2,12 @@ from flask import Blueprint, render_template, request, flash, redirect, url_for
 from ..models import User, Images
 from ..ml_model import prediction
 from app import basedir, find_last_image
-import time
+import numpy as np
 from .. import db
 from PIL import Image
 import urllib.request
 import os
+import time
 
 main = Blueprint('main', __name__, template_folder='templates')
 
@@ -71,11 +72,47 @@ def image():
         return render_template("sheet.html", predict=predict, info=info)
 
     image_to_display = find_last_image()[0]
-    image_to_display = os.path.join("file://", image_to_display)
-    print("TO DISPLAY", image_to_display)
+    # image_to_display = os.path.join("", image_to_display)
 
     print(predict)
     return render_template("sheet.html", predict=predict, image_to_display=image_to_display)
+
+
+@main.route('/buttons', methods=["POST"])
+def buttons():
+    if "plus" in request.form:
+        data = request.form['plus']
+        sign = "p"
+    elif "minus" in request.form:
+        data = request.form['minus']
+        sign = "m"
+    elif "multi" in request.form:
+        data = request.form['multi']
+        sign = "n"
+    elif "divis" in request.form:
+        data = request.form['divis']
+        sign = "d"
+    elif "equate" in request.form:
+        data = request.form['equate']
+        sign = "e"
+    else:
+        data = None
+        sign = "Incorrect"
+    try:
+        img = Image.open(urllib.request.urlopen(data))
+    except AttributeError:
+        img = None
+    result = prediction(img)
+    filtered_image = result[2]
+    img_name = time.strftime("%Y%m%d-%H%M%S")
+    img_name = "".join([img_name, "_", sign, ".jpg"])
+    try:
+        path_image = "/".join([basedir, "captured_image", img_name])
+        filtered_image.save(path_image)
+    except FileNotFoundError:
+        info = "Files problem"
+        return render_template("sheet.html", info=info)
+    return render_template("sheet.html")
 
 
 @main.route('/delete_image', methods=["POST"])
