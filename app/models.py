@@ -13,11 +13,11 @@ class User(db.Model):
         return f"User {self.name}"
 
 
-class Images(db.Model):
-    __tablename__ = "images"
+class Equation(db.Model):
+    __tablename__ = "equation"
     id = db.Column(db.Integer, primary_key=True)
-    array = db.Column(db.Text())
-    predict = db.Column(db.Integer())
+    value = db.Column(db.String(10))
+
 
     def __repl__(self):
         return f"Image ID{self.id} Predict:{self.predict}"

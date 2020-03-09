@@ -6,6 +6,8 @@
         <p><b>{{latest_file}}</b></p>
         <p><b>{{value}}</b><p>
         <p>{{info}}</p>
+        <p>{{values_from_db_list}}{{result}}</p>
+<!--        <p>{{value1_from_db}}{{sign_from_db}}{{value2_from_db}}</p>-->
         <canvas id="Canvas" width="300" height="300" style="border:2px solid black" ></canvas>
            <form method="POST"  action="{{url_for('main.image')}}">
                 <button type="submit" class="btn btn-primary btn-lg" id="test" name="img" onclick="drawDataURIOnCanvas();" > Get</button>

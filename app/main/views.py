@@ -1,7 +1,8 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
-from ..models import User, Images
+from ..models import User, Equation
 from ..ml_model import prediction
 from app import basedir, find_last_image
+import sqlalchemy.exc
 import numpy as np
 from .. import db
 from PIL import Image
@@ -70,16 +71,27 @@ def image():
     except FileNotFoundError:
         info = "Files problem"
         return render_template("sheet.html", predict=predict, info=info)
+    predict = int(predict)
 
-    image_to_display = find_last_image()[0]
+    value_db = Equation(value=predict)
+    db.session.add(value_db)
+    db.session.commit()
+
+    values_from_db = db.session.query(Equation.value).all()
+    values_from_db_list = list(values_from_db)
+    # image_to_display = find_last_image()[0]
     # image_to_display = os.path.join("", image_to_display)
 
     print(predict)
-    return render_template("sheet.html", value=predict, image_to_display=image_to_display)
+    return render_template("sheet.html", value=predict, values_from_db_list=values_from_db_list )
 
 
 @main.route('/buttons', methods=["POST"])
 def buttons():
+    result = None
+    values_from_db = db.session.query(Equation.value).all()
+    values_from_db_list = list(values_from_db)
+    values_from_db_list = ([x[0] for x in values_from_db_list])
     if "plus" in request.form:
         data = request.form['plus']
         sign = "+"
@@ -94,12 +106,18 @@ def buttons():
         sign = "/"
     elif "equate" in request.form:
         data = request.form['equate']
-        sign = "="
+        sign = None
+        Equation.query.delete()
+        result = int(values_from_db_list[0]) + int(values_from_db_list[0])
     else:
         data = None
         sign = "Incorrect"
+    sign_db = Equation(value=sign)
+    db.session.add(sign_db)
+    db.session.commit()
+    Equation.query.delete()
 
-    return render_template("sheet.html", value=sign)
+    return render_template("sheet.html", value=sign, result=result, values_from_db_list=values_from_db_list)
 
 
 @main.route('/delete_image', methods=["POST"])
