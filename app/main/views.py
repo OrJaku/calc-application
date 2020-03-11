@@ -108,16 +108,22 @@ def buttons():
         data = request.form['equate']
         sign = None
         Equation.query.delete()
-        result = int(values_from_db_list[0]) + int(values_from_db_list[0])
+        db.session.commit()
+        result = int(values_from_db_list[0]) + int(values_from_db_list[2])
     else:
         data = None
         sign = "Incorrect"
     sign_db = Equation(value=sign)
     db.session.add(sign_db)
     db.session.commit()
-    Equation.query.delete()
-
     return render_template("sheet.html", value=sign, result=result, values_from_db_list=values_from_db_list)
+
+
+@main.route('/clear_equation', methods=["POST"])
+def clear_equation():
+    Equation.query.delete()
+    db.session.commit()
+    return render_template("sheet.html")
 
 
 @main.route('/delete_image', methods=["POST"])
@@ -135,5 +141,7 @@ def delete_image():
         count = labels_list.count(str(i))
         count_labels[i] = count
         i += 1
+    Equation.query.delete()
+    db.session.commit()
     print(count_labels)
     return render_template("sheet.html", latest_file=path_to_latest_file[2])

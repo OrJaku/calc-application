@@ -7,7 +7,6 @@
         <p><b>{{value}}</b><p>
         <p>{{info}}</p>
         <p>{{values_from_db_list}}{{result}}</p>
-<!--        <p>{{value1_from_db}}{{sign_from_db}}{{value2_from_db}}</p>-->
         <canvas id="Canvas" width="300" height="300" style="border:2px solid black" ></canvas>
            <form method="POST"  action="{{url_for('main.image')}}">
                 <button type="submit" class="btn btn-primary btn-lg" id="test" name="img" onclick="drawDataURIOnCanvas();" > Get</button>
@@ -18,7 +17,9 @@
                 <button type="submit" class="btn btn-secondary" id="multi" name="multi"> * </button>
                 <button type="submit" class="btn btn-secondary" id="divis" name="divis"> / </button>
                 <button type="submit" class="btn btn-secondary" id="equate" name="equate"> = </button>
-
+            </form>
+            <form method="POST"  action="{{url_for('main.clear_equation')}}">
+                <button type="submit" class="btn btn-info" id="clear" name="clear"> c </button>
             </form><br>
             <form method="POST"  action="{{url_for('main.delete_image')}}">
                 <button type="submit" class="btn btn-danger" name="delete_image">Incorrect</button>
