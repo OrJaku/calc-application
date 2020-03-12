@@ -5,12 +5,21 @@ border-radius: 5px;
 margin: 0em 1em 0em 1em;
 }
 
-.btn-primary {
+.btn-outline-primary {
 padding: 10px 137px;
 margin: 0em 1em 0em 1em;
 }
 
 .btn-info {
-padding: 0px 50px;
-margin: 0.5em 1em 0em 1em;
+padding: 2px 29px;
+margin: 0.3em 0.1em 1em 0.1em;
+}
+
+.line_button {
+display: inline-block;
+}
+
+.line_button_out {
+width:100%;
+text-align: center;
 }

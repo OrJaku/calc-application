@@ -6,25 +6,54 @@
         <p><b>{{latest_file}}</b></p>
         <p><b>{{value}}</b><p>
         <p>{{info}}</p>
-        <p>{{values_from_db_list}}{{result}}</p>
+        <p>
+            {{value_1}}
+
+             {%if sign == None:%}
+                {{ pass }}
+            {%else:%}
+                {{sign}}
+            {%endif%}
+
+            {%if value_2 == None:%}
+                {{ _ }}
+            {%else:%}
+                {{value_2}}
+            {%endif%}
+
+            {%if result%}
+                = {{result}}
+            {%else:%}
+                {{ pass }}
+            {%endif%}
+
+        </p>
         <canvas id="Canvas" width="300" height="300" style="border:2px solid black" ></canvas>
            <form method="POST"  action="{{url_for('main.image')}}">
-                <button type="submit" class="btn btn-primary btn-lg" id="test" name="img" onclick="drawDataURIOnCanvas();" > Get</button>
+                <button type="submit" class="btn btn-outline-primary btn-lg" id="test" name="img" onclick="drawDataURIOnCanvas();"> Get</button>
             </form><br>
             <form method="POST"  action="{{url_for('main.buttons')}}">
                 <button type="submit" class="btn btn-secondary" id="plus" name="plus" > + </button>
                 <button type="submit" class="btn btn-secondary" id="minus" name="minus"> - </button>
                 <button type="submit" class="btn btn-secondary" id="multi" name="multi"> * </button>
                 <button type="submit" class="btn btn-secondary" id="divis" name="divis"> / </button>
-                <button type="submit" class="btn btn-secondary" id="equate" name="equate"> = </button>
             </form>
-            <form method="POST"  action="{{url_for('main.clear_equation')}}">
-                <button type="submit" class="btn btn-info" id="clear" name="clear"> c </button>
-            </form><br>
+            <div class="line_button_out">
+                <div class="line_button">
+                    <form method="POST"  action="{{url_for('main.buttons')}}">
+                        <button type="submit" class="btn btn-info" id="equate" name="equate"> = </button>
+                    </form>
+                </div>
+                <div class="line_button">
+                    <form method="POST"  action="{{url_for('main.clear_equation')}}">
+                        <button type="submit" class="btn btn-info" id="clear" name="clear"> c </button>
+                    </form>
+                </div>
+            </div>
             <form method="POST"  action="{{url_for('main.delete_image')}}">
                 <button type="submit" class="btn btn-danger" name="delete_image">Incorrect</button>
             </form>
-            <button onclick="javascript:clearArea();return false;" class="btn btn-info">Clear Area</button>
+            <button onclick="javascript:clearArea();return false;" class="btn btn-primary">Clear Area</button>
             Line width : <select id="selWidth">
                 <option value="5">5</option>
                 <option value="7">7</option>

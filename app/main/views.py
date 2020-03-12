@@ -76,47 +76,65 @@ def image():
     value_db = Equation(value=predict)
     db.session.add(value_db)
     db.session.commit()
+    values = get_db_values()
+    value_1 = values[0]
+    value_2 = values[1]
+    sign = values[2]
 
-    values_from_db = db.session.query(Equation.value).all()
-    values_from_db_list = list(values_from_db)
-    # image_to_display = find_last_image()[0]
-    # image_to_display = os.path.join("", image_to_display)
-
-    print(predict)
-    return render_template("sheet.html", value=predict, values_from_db_list=values_from_db_list )
+    return render_template("sheet.html", value=predict, sign=sign, value_1=value_1, value_2=value_2)
 
 
 @main.route('/buttons', methods=["POST"])
 def buttons():
     result = None
-    values_from_db = db.session.query(Equation.value).all()
-    values_from_db_list = list(values_from_db)
-    values_from_db_list = ([x[0] for x in values_from_db_list])
+    values = get_db_values()
+    value_1 = values[0]
+    value_2 = values[1]
+
     if "plus" in request.form:
         data = request.form['plus']
         sign = "+"
+        sign_db = Equation(value=sign)
+        db.session.add(sign_db)
+        db.session.commit()
     elif "minus" in request.form:
         data = request.form['minus']
         sign = "-"
+        sign_db = Equation(value=sign)
+        db.session.add(sign_db)
+        db.session.commit()
     elif "multi" in request.form:
         data = request.form['multi']
         sign = "*"
+        sign_db = Equation(value=sign)
+        db.session.add(sign_db)
+        db.session.commit()
     elif "divis" in request.form:
         data = request.form['divis']
         sign = "/"
+        sign_db = Equation(value=sign)
+        db.session.add(sign_db)
+        db.session.commit()
     elif "equate" in request.form:
         data = request.form['equate']
-        sign = None
+        sign = values[2]
         Equation.query.delete()
         db.session.commit()
-        result = int(values_from_db_list[0]) + int(values_from_db_list[2])
+        if sign == "+":
+            result = int(value_1) + int(value_2)
+        elif sign == "-":
+            result = int(value_1) - int(value_2)
+        elif sign == "*":
+            result = int(value_1) * int(value_2)
+        elif sign == "/":
+            result = int(value_1) / int(value_2)
+        else:
+            result = "Incorrect"
     else:
         data = None
         sign = "Incorrect"
-    sign_db = Equation(value=sign)
-    db.session.add(sign_db)
-    db.session.commit()
-    return render_template("sheet.html", value=sign, result=result, values_from_db_list=values_from_db_list)
+
+    return render_template("sheet.html", value=sign, result=result, sign=sign, value_1=value_1, value_2=value_2)
 
 
 @main.route('/clear_equation', methods=["POST"])
@@ -145,3 +163,22 @@ def delete_image():
     db.session.commit()
     print(count_labels)
     return render_template("sheet.html", latest_file=path_to_latest_file[2])
+
+
+def get_db_values():
+    values_from_db = db.session.query(Equation.value).all()
+    values_from_db_list = list(values_from_db)
+    values_from_db_list = ([x[0] for x in values_from_db_list])
+    try:
+        value_1 = values_from_db_list[0]
+    except IndexError:
+        value_1 = None
+    try:
+        value_2 = values_from_db_list[2]
+    except IndexError:
+        value_2 = None
+    try:
+        sign = values_from_db_list[1]
+    except IndexError:
+        sign = None
+    return value_1, value_2, sign
