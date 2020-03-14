@@ -127,7 +127,13 @@ def buttons():
         elif sign == "*":
             result = int(value_1) * int(value_2)
         elif sign == "/":
-            result = int(value_1) / int(value_2)
+            print("va1", value_1)
+            print("va2", value_2)
+            print("si", sign)
+            if value_2 == "0":
+                result = "You can not division by 0"
+            else:
+                result = int(value_1) / int(value_2)
         else:
             result = "Incorrect"
     else:
