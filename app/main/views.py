@@ -2,8 +2,6 @@ from flask import Blueprint, render_template, request, flash, redirect, url_for
 from ..models import User, Equation
 from ..ml_model import prediction
 from app import basedir, find_last_image
-import sqlalchemy.exc
-import numpy as np
 from .. import db
 from PIL import Image
 import urllib.request
@@ -18,11 +16,11 @@ def home():
     return render_template("home.html")
 
 
-@main.route('/chat_room', methods=["POST", "GET"])
-def chat_room():
+@main.route('/calc_room', methods=["POST", "GET"])
+def calc_room():
     user_list = db.session.query(User.name).all()
     user_list =([x[0] for x in user_list])
-    return render_template("chat_room.html", userlist=user_list)
+    return render_template("calc_room.html", userlist=user_list)
 
 
 @main.route('/register', methods=["POST"])
@@ -34,7 +32,7 @@ def register():
         user_name = get_user.name
         user_email = get_user.email
         if nickname == user_name or email == user_email:
-            flash("This email or nick name is already use in chat")
+            flash("This email or nick name is already use in app")
         else:
             user = User(name=nickname,
                         email=email)
@@ -47,7 +45,7 @@ def register():
         db.session.add(user)
         db.session.commit()
         flash("Registered successfully")
-    return redirect(url_for('main.chat_room'))
+    return redirect(url_for('main.calc_room'))
 
 
 @main.route('/writing')
@@ -127,9 +125,6 @@ def buttons():
         elif sign == "*":
             result = int(value_1) * int(value_2)
         elif sign == "/":
-            print("va1", value_1)
-            print("va2", value_2)
-            print("si", sign)
             if value_2 == "0":
                 result = "You can not division by 0"
             else:
@@ -139,7 +134,7 @@ def buttons():
     else:
         data = None
         sign = "Incorrect"
-
+    print(f"Equation [{value_1} {sign} {value_2}]")
     return render_template("sheet.html", value=sign, result=result, sign=sign, value_1=value_1, value_2=value_2)
 
 
