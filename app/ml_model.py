@@ -63,7 +63,7 @@ def prediction(image):
     img = img.point(lambda x: 230 if x > 1 else 0)
     img = ndimage.gaussian_filter(img, sigma=0.1)
     img_array = np.array(img)
-    img_array = img_array.reshape(28 * 28)
+    img_array = img_array.reshape(28, 28, 1)
     image = img_array.astype("float32") / 255
     img_list.append(image)
     img_list = np.array(img_list)
